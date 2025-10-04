@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script type='text/javascript'>    
+      window.onload = function(){
+        handleDownload();
+      }
+      function handleDownload() {
+        var content = <?= getCsvFRG(); ?>;
+
+        document.write("<pre id=\"gg_csv\">");
+        document.write(content);
+        document.write("</pre>");
+      }
+  </script>
+  </head>
+</html>
