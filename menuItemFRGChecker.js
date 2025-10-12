@@ -3,10 +3,6 @@
  */
 function runFRGChecksOnSelectedRowWithUI() {
   const ui = SpreadsheetApp.getUi();
-  if (!API_KEY) {
-    ui.alert('エラー', 'Gemini APIキーがスクリプトプロパティに設定されていません。スクリプトエディタの「プロジェクトの設定」から設定してください。', ui.ButtonSet.OK);
-    return;
-  }
 
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   const activeCell = sheet.getActiveCell();
@@ -24,7 +20,8 @@ function runFRGChecksOnSelectedRowWithUI() {
   if (confirm === ui.Button.YES) {
     SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理を開始します...', '処理中', -1);
     try {
-      runFRGChecksOnSelectedRow(sheet, currentRow);
+      LLMChecksFRG(sheet, currentRow);
+
       SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理が完了しました。', '完了', 5);
       ui.alert('完了', `${currentRow} 行目のFRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
@@ -42,10 +39,6 @@ function runFRGChecksOnSelectedRowWithUI() {
  */
 function runFRGChecksAllWithUI() {
   const ui = SpreadsheetApp.getUi();
-  if (!API_KEY) {
-    ui.alert('エラー', 'Gemini APIキーがスクリプトプロパティに設定されていません。スクリプトエディタの「プロジェクトの設定」から設定してください。', ui.ButtonSet.OK);
-    return;
-  }
 
   const confirm = ui.alert(
       '確認',
