@@ -492,14 +492,14 @@ function batchUpdateResults(sheet, row, resultsToUpdate) {
         // エラー対象のみを表示
         displayResults = resultsArray.filter(result => result.is_error_found === true);
         if (displayResults.length === 0) {
-          statusPrefix = "OK :";
+          statusPrefix = "OK:";
         } else {
-          statusPrefix = "NG :";
+          statusPrefix = "NG:";
         }
       } else {
         // 全て表示
         const allErrorsFalse = resultsArray.every(result => result.is_error_found === false);
-        statusPrefix = allErrorsFalse ? "OK :" : "NG :";
+        statusPrefix = allErrorsFalse ? "OK:" : "NG:";
       }
       
       // JSON文字列を生成
