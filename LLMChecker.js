@@ -281,12 +281,12 @@ const OUTPUT_COLUMN_MAPPING = {
 
 
 /**
- * 選択された行のFRGデータをチェックし、結果をスプレッドシートに書き込みます。
+ * 指定された行のFRGデータをチェックし、結果をスプレッドシートに書き込みます。
  * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet 対象のシート。
  * @param {number} currentRow 対象の行番号。
  * @param {Object} config 設定オブジェクト（apiKey, modelName）。
  */
-function runFRGChecksOnSelectedRow(sheet, currentRow, config) {
+function LLMChecksFRG(sheet, currentRow, config) {
   const ui = SpreadsheetApp.getUi();
   let errorsEncountered = 0;
   
