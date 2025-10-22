@@ -3,8 +3,24 @@
  */
 function runFRGChecksOnSelectedRowWithUI() {
   const ui = SpreadsheetApp.getUi();
+  
+  // Configシートから設定を取得
+  let config;
+  try {
+    config = getConfigFromSheet();
+  } catch (e) {
+    ui.alert('エラー', e.message, ui.ButtonSet.OK);
+    return;
+  }
 
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // FRGシート以外の場合は処理を行わない
+  if (sheet.getName() !== 'FRG') {
+    ui.alert('エラー', 'FRGシートを選択してください。', ui.ButtonSet.OK);
+    return;
+  }
+  
   const activeCell = sheet.getActiveCell();
   if (!activeCell) {
     ui.alert('エラー', 'セルが選択されていません。処理対象の行のいずれかのセルを選択してください。', ui.ButtonSet.OK);
@@ -20,8 +36,7 @@ function runFRGChecksOnSelectedRowWithUI() {
   if (confirm === ui.Button.YES) {
     SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理を開始します...', '処理中', -1);
     try {
-      LLMChecksFRG(sheet, currentRow);
-
+      runFRGChecksOnSelectedRow(sheet, currentRow, config);
       SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理が完了しました。', '完了', 5);
       ui.alert('完了', `${currentRow} 行目のFRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
@@ -33,7 +48,6 @@ function runFRGChecksOnSelectedRowWithUI() {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
   }
 }
-
 /**
  *  FRGシートの全データをチェック
  */
