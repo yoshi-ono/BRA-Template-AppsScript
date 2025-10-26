@@ -37,12 +37,13 @@ function runFRGChecksOnSelectedRowWithUI() {
     SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理を開始します...', '処理中', -1);
     try {
       LLMChecksFRG(sheet, currentRow, config);
+
       SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理が完了しました。', '完了', 5);
       ui.alert('完了', `${currentRow} 行目のFRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
       Logger.log(`Error in runFRGChecksOnSelectedRowWithUI: ${e.toString()}\nStack: ${e.stack}`);
-      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}\n詳細は[表示] > [ログ]で確認してください。`, ui.ButtonSet.OK);
+      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。', 'エラー', 10);
+      ui.alert('エラー', `処理中にエラーが発生しました:\n ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
@@ -55,6 +56,15 @@ function runFRGChecksOnSelectedRowWithUI() {
 function runFRGChecksAllWithUI() {
   const ui = SpreadsheetApp.getUi();
 
+  // Configシートから設定を取得
+  let config;
+  try {
+    config = getConfigFromSheet();
+  } catch (e) {
+    ui.alert('エラー', e.message, ui.ButtonSet.OK);
+    return;
+  }
+
   const confirm = ui.alert(
       '確認',
       '"FRG Review End Line"までのFRGチェックを実行します。\n処理には時間がかかることがあります。',
@@ -63,21 +73,28 @@ function runFRGChecksAllWithUI() {
   if (confirm === ui.Button.YES) {
     SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理を開始します...', '処理中', -1);
     try {
-      checkAllFRG();
+      checkAllFRG(config);
 
+      SpreadsheetApp.getActiveSpreadsheet().toast('FRGチェック処理が完了しました。', '完了', 5);
       ui.alert('完了', `FRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
       Logger.log(`Error in runFRGChecksAllWithUI: ${e.toString()}\nStack: ${e.stack}`);
-      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}\n詳細は[表示] > [ログ]で確認してください。`, ui.ButtonSet.OK);
+      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。', 'エラー', 10);
+      ui.alert('エラー', `処理中にエラーが発生しました:\n ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
   }
 }
 
-function checkAllFRG()
+function checkAllFRG(config)
 {
+  if (config == undefined) {
+    var new_e = new Error("config is undefined.");
+    new_e.message = new_e.stack;
+    throw new_e;
+  }
+
   var sheetProject = getSheet("Project");
   var sheetFRG = getSheet("FRG");
 
@@ -90,7 +107,7 @@ function checkAllFRG()
   for (var i = 2; i <= frgReviewEL; i++) {
     Logger.log("######################### Row: " + i);
 
-    LLMChecksFRG(sheetFRG, i);
+    LLMChecksFRG(sheetFRG, i, config);
   }
 }
 
