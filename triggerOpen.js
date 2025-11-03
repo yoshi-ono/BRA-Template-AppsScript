@@ -8,7 +8,7 @@ function onOpen() {
       .addToUi();
 
   ui.createMenu('FRG Checker (LLM)')
-      .addItem('FRGシートの選択行をチェック', 'runFRGChecksOnSelectedRowWithUI')
-      .addItem('FRGシートの全データをチェック', 'runFRGChecksAllWithUI')
+      .addItem('Selected Line', 'runFRGChecksOnSelectedRowWithUI')
+      .addItem('Above REL', 'runFRGChecksAllWithUI')
       .addToUi();
 }

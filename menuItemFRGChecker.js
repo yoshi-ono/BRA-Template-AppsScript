@@ -67,7 +67,7 @@ function runFRGChecksAllWithUI() {
 
   const confirm = ui.alert(
       '確認',
-      '"FRG Review End Line"までのFRGチェックを実行します。\n処理には時間がかかることがあります。',
+      '"Review End Line"より上のデータ行について、FRGチェックを実行します。\n処理には時間がかかることがあります。',
       ui.ButtonSet.YES_NO);
 
   if (confirm === ui.Button.YES) {
