@@ -27,6 +27,10 @@ function runFRGChecksOnSelectedRowWithUI() {
     return;
   }
   const currentRow = activeCell.getRow();
+  if (currentRow === 1) {
+    ui.alert('エラー', 'FRGシートの1行目はカラム行のため処理できません。', ui.ButtonSet.OK);
+    return;
+  }
 
   const confirm = ui.alert(
       '確認',
