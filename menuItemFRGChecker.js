@@ -46,7 +46,7 @@ function runFRGChecksOnSelectedRowWithUI() {
     } catch (e) {
       Logger.log(`Error in runFRGChecksOnSelectedRowWithUI: ${e.toString()}\nStack: ${e.stack}`);
       SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}\n詳細は[表示] > [ログ]で確認してください。`, ui.ButtonSet.OK);
+      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
@@ -73,7 +73,7 @@ function runFRGChecksAllWithUI() {
     } catch (e) {
       Logger.log(`Error in runFRGChecksAllWithUI: ${e.toString()}\nStack: ${e.stack}`);
       SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}\n詳細は[表示] > [ログ]で確認してください。`, ui.ButtonSet.OK);
+      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
