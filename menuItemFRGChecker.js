@@ -27,6 +27,10 @@ function runFRGChecksOnSelectedRowWithUI() {
     return;
   }
   const currentRow = activeCell.getRow();
+  if (currentRow === 1) {
+    ui.alert('エラー', 'FRGシートの1行目はカラム行のため処理できません。', ui.ButtonSet.OK);
+    return;
+  }
 
   const confirm = ui.alert(
       '確認',
@@ -42,8 +46,8 @@ function runFRGChecksOnSelectedRowWithUI() {
       ui.alert('完了', `${currentRow} 行目のFRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
       Logger.log(`Error in runFRGChecksOnSelectedRowWithUI: ${e.toString()}\nStack: ${e.stack}`);
-      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました:\n ${e.message}`, ui.ButtonSet.OK);
+      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
+      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
@@ -79,8 +83,8 @@ function runFRGChecksAllWithUI() {
       ui.alert('完了', `FRGチェック処理が完了しました。`, ui.ButtonSet.OK);
     } catch (e) {
       Logger.log(`Error in runFRGChecksAllWithUI: ${e.toString()}\nStack: ${e.stack}`);
-      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。', 'エラー', 10);
-      ui.alert('エラー', `処理中にエラーが発生しました:\n ${e.message}`, ui.ButtonSet.OK);
+      SpreadsheetApp.getActiveSpreadsheet().toast('エラーが発生しました。詳細はログを確認してください。', 'エラー', 10);
+      ui.alert('エラー', `処理中にエラーが発生しました: ${e.message}`, ui.ButtonSet.OK);
     }
   } else {
     SpreadsheetApp.getActiveSpreadsheet().toast('処理はキャンセルされました。', 'キャンセル', 5);
